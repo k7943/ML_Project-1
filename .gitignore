@@ -195,4 +195,4 @@ cython_debug/
 .DS_Store
 src/.DS_Store
 notebook/.DS_Store
-.artifact
+artifacts
