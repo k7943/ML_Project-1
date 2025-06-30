@@ -1,111 +1,577 @@
-<html>
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Predict student math scores using a Machine Learning web app built with Flask. Enter academic and demographic details to get accurate predictions.">
+    <meta name="author" content="Kunal Sharma">
+    <meta name="keywords" content="Student Performance Predictor, ML Project, Flask App, Education Analytics, Math Score Prediction">
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Performance Predictor</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    .btn-primary {
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    :root[data-theme='light'] {
+  /* existing vars... */
+  --navbar-bg: #ffffff;
+  --navbar-text: #212529;
+  --btn-bg: #ffffff;
+  --btn-text: #212529;
+}
+
+:root[data-theme='dark'] {
+  /* existing vars... */
+  --navbar-bg: #1e1e1e;
+  --navbar-text: #f8f9fa;
+  --btn-bg: #2c2c2c;
+  --btn-text: #f8f9fa;
+}
+
+.navbar {
+  background-color: var(--navbar-bg) !important;
+}
+
+.navbar .nav-link,
+.navbar-brand {
+  color: var(--navbar-text) !important;
+}
+
+.navbar .nav-link:hover {
+  color: var(--btn-text) !important;
+}
+
+.theme-toggle-btn {
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+  border: 1px solid var(--btn-text);
+  transition: all 0.3s ease;
+}
+
+.theme-toggle-btn:hover {
+  background-color: var(--btn-text);
+  color: var(--btn-bg);
+}
+
+    :root[data-theme='light'] {
+        --bg-color: #f8f9fa;
+        --text-color: #212529;
+        --card-bg: #ffffff;
+        --pre-bg: #f1f3f5;
+        --pre-text: #212529;
+
+        /* ADD these new variables below */
+        --table-bg: #ffffff;
+        --table-text: #212529;
+        --table-header-bg: #f1f3f5;
+        --muted-text-color: #6c757d;
+        }
+
+        :root[data-theme='dark'] {
+        --bg-color: #121212;
+        --text-color: #f8f9fa;
+        --card-bg: #1e1e1e;
+        --pre-bg: #2c2c2c;
+        --pre-text: #e9ecef;
+
+
+        /* ADD these new variables below */
+        --table-bg: #1e1e1e;
+        --table-text: #f8f9fa;
+        --table-header-bg: #2c2c2c;
+        --muted-text-color: #adb5bd;
+    }
+
+    body {
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s ease;
+    }
+
+    .section {
+      padding: 30px 20px;
+    }
+
+    .card-style {
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.05);
+      padding: 30px;
+      transition: background-color 0.3s ease;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .container {
+        max-width: 1640px;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .text-muted {
+        color: var(--muted-text-color) !important;
+    }
+    
+    .step-box {
+        background-color: var(--pre-bg);
+        color: var(--pre-text);
+        padding: 20px;
+        border-radius: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        position: relative;
+        height: 100%;
+    }
+
+    .arrow {
+        font-size: 2rem;
+        display: inline-block;
+        transform: scaleX(1.3);
+        margin: 0 10px;
+        color: var(--text-color);
+    }
+
+    #scrollTopBtn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 999;
+  font-size: 18px;
+  padding: 10px 15px;
+  border: none;
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  cursor: pointer;
+  display: none;
+  transition: all 0.3s ease;
+}
+
+#scrollTopBtn:hover {
+  background-color: var(--btn-text);
+  color: var(--btn-bg);
+}
+
+  </style>
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+</head>
+
+<nav class="navbar navbar-expand-lg bg-light sticky-top shadow-sm" style="z-index: 1050;">
+    <div class="container d-flex justify-content-between align-items-center">
+      <a class="navbar-brand fw-bold" href="#">Student Performance Predictor</a>
+  
+      <ul class="navbar-nav flex-row gap-3 mb-0">
+        <li class="nav-item"><a class="nav-link" href="#form">Form</a></li>
+        <li class="nav-item"><a class="nav-link" href="#overview">Overview</a></li>
+        <li class="nav-item"><a class="nav-link" href="#models">Models</a></li>
+        <li class="nav-item"><a class="nav-link" href="#dataset">Dataset</a></li>
+        <li class="nav-item"><a class="nav-link" href="#project-structure">Structure</a></li>
+        <li class="nav-item"><a class="nav-link" href="#how-it-works">Steps</a></li>
+      </ul>
+  
+      <!-- Theme Toggle Button inside navbar -->
+      <button class="btn btn-outline-secondary btn-sm" onclick="toggleTheme()">
+        <span id="theme-label">Dark Theme</span>
+      </button>
+    </div>
+  </nav>
+
 <body>
-    <div class="login">
-       <h1>Student Exam Performance Indicator</h1>
-   
-       <form action="{{ url_for('predict_datapoint')}}" method="post">
-        <h1>
-            <legend>Student Exam Performance Prediction</legend>
-        </h1>
-        <div class="mb-3">
-            <label class="form-label">Gender</label>
-            <select class="form-control" name="gender" placeholder="Enter you Gender" required>
-                <option class="placeholder" selected disabled value="">Select your Gender</option>
-                <option value="male">
-                    Male
-                </option>
-                <option value="female">
-                    Female
-                </option>
+
+  <!-- Hero Section -->
+  <section class="section text-center" data-aos="fade-up" >
+    <div class="container">
+      <h1 class="fw-bold mb-3">Student Performance Predictor</h1>
+      <p class="lead">A Machine Learning tool to estimate students' math scores based on academic and demographic data.</p>
+    </div>
+  </section>
+
+  <section class="section" data-aos="fade-up" id="form">
+    <div class="container">
+      <div class="card-style">
+        <h2 class="text-center mb-4">Enter Student Details</h2>
+        <form action="{{ url_for('predict_datapoint') }}" method="POST">
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="gender" class="form-label">Gender</label>
+              <select class="form-select" id="gender" name="gender" required>
+                <option selected disabled value="">Select gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="race_ethnicity" class="form-label">Race or Ethnicity</label>
+              <select class="form-select" id="race_ethnicity" name="race_ethnicity" required>
+                <option selected disabled value="">Select ethnicity</option>
+                <option value="group A">Group A</option>
+                <option value="group B">Group B</option>
+                <option value="group C">Group C</option>
+                <option value="group D">Group D</option>
+                <option value="group E">Group E</option>
+              </select>
+            </div>
+          </div>
+  
+          <div class="mb-3">
+            <label for="parental_level_of_education" class="form-label">Parental Level of Education</label>
+            <select class="form-select" id="parental_level_of_education" name="parental_level_of_education" required>
+              <option selected disabled value="">Select education level</option>
+              <option value="associate's degree">Associate's degree</option>
+              <option value="bachelor's degree">Bachelor's degree</option>
+              <option value="high school">High school</option>
+              <option value="master's degree">Master's degree</option>
+              <option value="some college">Some college</option>
+              <option value="some high school">Some high school</option>
             </select>
+          </div>
+  
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="lunch" class="form-label">Lunch Type</label>
+              <select class="form-select" id="lunch" name="lunch" required>
+                <option selected disabled value="">Select lunch type</option>
+                <option value="free/reduced">Free/Reduced</option>
+                <option value="standard">Standard</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="test_preparation_course" class="form-label">Test Preparation Course</label>
+              <select class="form-select" id="test_preparation_course" name="test_preparation_course" required>
+                <option selected disabled value="">Select test course</option>
+                <option value="none">None</option>
+                <option value="completed">Completed</option>
+              </select>
+            </div>
+          </div>
+  
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <label for="reading_score" class="form-label">Reading Score (out of 100)</label>
+              <input type="number" class="form-control" id="reading_score" name="reading_score" min="0" max="100" required>
+            </div>
+            <div class="col-md-6">
+              <label for="writing_score" class="form-label">Writing Score (out of 100)</label>
+              <input type="number" class="form-control" id="writing_score" name="writing_score" min="0" max="100" required>
+            </div>
+          </div>
+  
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary btn-lg">Predict Math Score</button>
+          </div>
+        </form>
+  
+        {% if results %}
+        <div class="alert alert-info text-center mt-4">
+            <strong>Predicted Math Score:</strong> {{ results }}
         </div>
-        <div class="mb-3">
-            <label class="form-label">Race or Ethnicity</label>
-            <select class="form-control" name="race_ethnicity" placeholder="Enter you ethnicity" required>
-                <option class="placeholder" selected disabled value="">Select Ethnicity</option>
-                <option value="group A">
-                    Group A
-                </option>
-                <option value="group B">
-                    Group B
-                </option>
-                <option value="group C">
-                    Group C
-                </option>
-                <option value="group D">
-                    Group D
-                </option>
-                <option value="group E">
-                    Group E
-                </option>
-            </select>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <!-- Prediction form and other sections will go here in next steps -->
+  <section class="section" data-aos="fade-up" id="overview">
+    <div class="container">
+      <div class="card-style">
+        <h2 class="text-center mb-4">Project Overview</h2>
+  
+        <p>
+          The <strong>Student Performance Predictor</strong> is a machine learning application that estimates a student's math score based on key academic and demographic indicators.
+          This tool is designed to support educators and analysts by identifying students who may benefit from additional academic assistance.
+        </p>
+  
+        <h4 class="mt-4">Key Features</h4>
+        <ul>
+          <li>End-to-end machine learning pipeline: data ingestion → preprocessing → model training → deployment</li>
+          <li>Hyperparameter tuning across 10 regression models</li>
+          <li>Live prediction interface built using Flask</li>
+          <li>Real-world dataset sourced from Kaggle</li>
+        </ul>
+  
+        <h4 class="mt-4">Technology Stack</h4>
+        <div class="row">
+          <div class="col-md-6">
+            <ul>
+              <li><strong>Language:</strong> Python</li>
+              <li><strong>Framework:</strong> Flask</li>
+              <li><strong>ML Libraries:</strong> scikit-learn, XGBoost, CatBoost</li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <ul>
+              <li><strong>Data Handling:</strong> pandas, numpy</li>
+              <li><strong>Visualization:</strong> matplotlib, seaborn</li>
+              <li><strong>Serialization:</strong> joblib, dill</li>
+            </ul>
+          </div>
         </div>
-        <div class="mb-3">
-            <label class="form-label">Parental Level of Education</label>
-            <select class="form-control" name="parental_level_of_education"
-                placeholder="Enter you Parent Education" required>
-                <option class="placeholder" selected disabled value="">Select Parent Education</option>
-                <option value="associate's degree">
-                    associate's degree
-                </option>
-                <option value="bachelor's degree">
-                    bachelor's degree
-                </option>
-                <option value="high school">
-                    high school
-                </option>
-                <option value="master's degree">
-                    master's degree
-                </option>
-                <option value="some college">
-                    some college
-                </option>
-                <option value="some high school">
-                    some high school
-                </option>
-            </select>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-aos="fade-up" id="dataset">
+    <div class="container">
+      <div class="card-style">
+        <h2 class="text-center mb-4">Dataset Summary</h2>
+        <p>
+          The dataset used for training the model was obtained from Kaggle's “Student Performance in Exams” dataset. It includes demographic and academic details of 1000 students.
+        </p>
+  
+        <ul class="mb-3">
+          <li><strong>Source:</strong> <a href="https://www.kaggle.com/datasets/spscientist/students-performance-in-exams" target="_blank">Kaggle – Student Performance Dataset</a></li>
+          <li><strong>Shape:</strong> 1000 rows × 8 columns</li>
+          <li><strong>Target Variable:</strong> <code>math_score</code></li>
+          <li><strong>Categorical Features:</strong> gender, race_ethnicity, parental_level_of_education, lunch, test_preparation_course</li>
+          <li><strong>Numerical Features:</strong> reading_score, writing_score</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section"  data-aos="fade-up" id = "pipeline">
+    <div class="container">
+      <div class="card-style">
+        <h2 class="text-center mb-4">Model Training Pipeline</h2>
+        <p>
+          The model was trained using a structured and modular pipeline that ensures reliability and repeatability. Here's a breakdown of the process:
+        </p>
+        <ul class="mt-3">
+          <li><strong>Data Collection:</strong> Dataset imported from Kaggle</li>
+          <li><strong>Cleaning:</strong> Checked for null values and removed inconsistencies</li>
+          <li><strong>Encoding:</strong> Categorical variables encoded using <code>OneHotEncoder</code></li>
+          <li><strong>Scaling:</strong> Numerical scores scaled using <code>StandardScaler</code></li>
+          <li><strong>Model Training:</strong> 10 regression models trained and compared</li>
+          <li><strong>Selection:</strong> Lasso Regression chosen based on highest R² and lowest MAE</li>
+          <li><strong>Serialization:</strong> Best model saved using <code>joblib</code> for fast inference</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section"  data-aos="fade-up" id="models">
+    <div class="container">
+      <div class="card-style">
+        <h2 class="text-center mb-4">Model Evaluation</h2>
+        <p>
+          Multiple regression models were trained and evaluated using metrics such as R² Score, Mean Absolute Error (MAE), and Root Mean Squared Error (RMSE). The best performing model was <strong>Lasso Regression</strong>, closely followed by Ridge and Linear Regression.
+        </p>
+  
+        <div class="table-responsive mt-4">
+          <table class="table table-bordered table-hover text-center align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Model</th>
+                <th>R² Score</th>
+                <th>MAE</th>
+                <th>RMSE</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr><td><i>Lasso Regression</i></td><td>0.8806</td><td>4.21</td><td>5.39</td></tr>
+                <tr><td>Ridge Regression</td><td>0.8805</td><td>4.21</td><td>5.39</td></tr>
+                <tr><td>Linear Regression</td><td>0.8804</td><td>4.21</td><td>5.39</td></tr>
+                <tr><td>CatBoost Regressor</td><td>0.8614</td><td>4.46</td><td>5.81</td></tr>
+                <tr><td>Gradient Boosting</td><td>0.8610</td><td>4.49</td><td>5.82</td></tr>
+                <tr><td>AdaBoost Regressor</td><td>0.8519</td><td>4.68</td><td>6.00</td></tr>
+                <tr><td>XGBoost Regressor</td><td>0.8495</td><td>4.65</td><td>6.05</td></tr>
+                <tr><td>Random Forest Regressor</td><td>0.8461</td><td>4.70</td><td>6.12</td></tr>
+                <tr><td>K-Neighbors Regressor</td><td>0.5786</td><td>7.94</td><td>10.13</td></tr>
+                <tr><td>Decision Tree Regressor</td><td>0.5492</td><td>8.05</td><td>10.47</td></tr>
+            </tbody>
+          </table>
         </div>
-        <div class="mb-3">
-            <label class="form-label">Lunch Type</label>
-            <select class="form-control" name="lunch" placeholder="Enter you Lunch" required>
-                <option class="placeholder" selected disabled value="">Select Lunch Type</option>
-                <option value="free/reduced">
-                    free/reduced
-                </option>
-                <option value="standard">
-                    standard
-                </option>
-            </select>
+      </div>
+    </div>
+  </section>
+
+  <section class="section"  data-aos="fade-up" id="how-it-works">
+    <div class="container">
+      <div class="card-style">
+        <h2 class="text-center mb-4">How It Works</h2>
+        <p class="mb-4 text-center">
+          Here's how the Student Performance Predictor works behind the scenes:
+        </p>
+  
+        <div class="d-none d-md-flex justify-content-center align-items-center flex-wrap text-center">
+          <div class="step-box mx-2 mb-3">
+            <strong>Step 1</strong><br>
+            Data Input<br>
+            <small class="text-muted">User submits form</small>
+          </div>
+          <span class="arrow">⟶</span>
+          <div class="step-box mx-2 mb-3">
+            <strong>Step 2</strong><br>
+            Preprocessing<br>
+            <small class="text-muted">Features scaled & encoded</small>
+          </div>
+          <span class="arrow">⟶</span>
+          <div class="step-box mx-2 mb-3">
+            <strong>Step 3</strong><br>
+            Model Prediction<br>
+            <small class="text-muted">Trained model returns output</small>
+          </div>
+          <span class="arrow">⟶</span>
+          <div class="step-box mx-2 mb-3">
+            <strong>Step 4</strong><br>
+            Result Displayed<br>
+            <small class="text-muted">Predicted score shown on screen</small>
+          </div>
         </div>
-        <div class="mb-3">
-            <label class="form-label">Test preparation Course</label>
-            <select class="form-control" name="test_preparation_course" placeholder="Enter you Course"
-                required>
-                <option class="placeholder" selected disabled value="">Select Test_course</option>
-                <option value="none">
-                    None
-                </option>
-                <option value="completed">
-                    Completed
-                </option>
-            </select>
+  
+        <!-- Mobile View: Stack steps vertically -->
+        <div class="d-md-none">
+          <div class="row g-3">
+            <div class="col-12">
+              <div class="step-box text-center">
+                <strong>Step 1</strong><br>
+                Data Input<br>
+                <small class="text-muted">User submits form</small>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="step-box text-center">
+                <strong>Step 2</strong><br>
+                Preprocessing<br>
+                <small class="text-muted">Features scaled & encoded</small>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="step-box text-center">
+                <strong>Step 3</strong><br>
+                Model Prediction<br>
+                <small class="text-muted">Trained model returns output</small>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="step-box text-center">
+                <strong>Step 4</strong><br>
+                Result Displayed<br>
+                <small class="text-muted">Predicted score shown on screen</small>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="mb-3">
-            <label class="form-label">Reading Score out of 100</label>
-            <input class="form-control" type="number" name="reading_score"
-                placeholder="Enter your Reading score" min='0' max='100' />
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Writing Score out of 100</label>
-            <input class="form-control" type="number" name="writing_score"
-                placeholder="Enter your Writing Score" min='0' max='100' />
-        </div>
-        <div class="mb-3">
-            <input class="btn btn-primary" type="submit" value="Predict your Maths Score" required />
-        </div>
-    </form>
-    <h2>
-       THE  prediction is {{results}}
-    </h2>
-   <body>
+  
+      </div>
+    </div>
+  </section>
+
+  <section class="section"  data-aos="fade-up" id="project-structure">
+    <div class="container">
+      <div class="card-style">
+        <h2 class="text-center mb-4">Project Structure</h2>
+        <details>
+          <summary class="mb-3">Click to view directory structure</summary>
+          <pre style="background-color: var(--pre-bg); color: var(--pre-text); padding: 20px; border-radius: 8px;">
+  .
+  ├── app.py                   # Flask application entry point
+  ├── templates/               # HTML templates
+  ├── data/                    # Raw data (stud.csv)
+  ├── notebook/                # EDA and model training notebooks
+  ├── artifacts/               # Serialized model & preprocessor
+  ├── requirements.txt         # Project dependencies
+  ├── README.md                # Project documentation
+  ├── src/
+  │   ├── components/          # Data ingestion, transformation, model training
+  │   ├── pipeline/            # train and predict pipelines
+  │   ├── utils.py             # Utility functions
+  │   └── exception.py         # Custom exception handler
+          </pre>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <footer class="text-center text-muted py-4 mt-5 border-top">
+    <div class="container">
+      <p class="mb-1">Kunal Sharma</p>
+      <p class="mb-1">B.Tech Chemical Engineering, IIT Delhi</p>
+      <p class="mb-0">
+        <a href="mailto:kunals7943@gmail.com" class="text-decoration-none">kunals7943@gmail.com</a> · 
+        <a href="https://www.linkedin.com/in/kunal-sharma-112010263/" target="_blank" class="text-decoration-none">LinkedIn</a> · 
+        <a href="https://github.com/k7943" target="_blank" class="text-decoration-none">GitHub</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Theme Toggle Script -->
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const label = document.getElementById("theme-label");
+      const isLight = html.getAttribute("data-theme") === "light";
+  
+      if (isLight) {
+        html.setAttribute("data-theme", "dark");
+        label.textContent = "Light Theme";
+      } else {
+        html.setAttribute("data-theme", "light");
+        label.textContent = "Dark Theme";
+      }
+    }
+  
+    // On load: set label based on current theme
+    window.addEventListener("DOMContentLoaded", () => {
+      const html = document.documentElement;
+      const label = document.getElementById("theme-label");
+      const isLight = html.getAttribute("data-theme") === "light";
+      label.textContent = isLight ? "Dark Theme" : "Light Theme";
+    });
+  </script>
+
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
+
+<button onclick="scrollToTop()" id="scrollTopBtn" title="Go to top">↑</button>
+
+
+
+</body>
 </html>
+
+<script>
+    const scrollBtn = document.getElementById("scrollTopBtn");
+  
+    window.onscroll = () => {
+      scrollBtn.style.display = window.scrollY > 300 ? "block" : "none";
+    };
+  
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  </script>
