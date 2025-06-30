@@ -72,6 +72,10 @@ who may need academic support.
 
 <h2>Model Training & Selection</h2>
 
+<p>
+  <img src="https://media.giphy.com/media/QBd2kLB5qDmysEXre9/giphy.gif" width="220" align="right" style="margin-left: 20px; margin-bottom: 10px; border-radius: 10px;" />
+</p>
+
 <h3>Models Evaluated</h3>
 
 <ul>
@@ -80,9 +84,6 @@ who may need academic support.
   <li>Decision Tree, Random Forest</li>
   <li>XGBoost, CatBoost, AdaBoost, Gradient Boosting</li>
 </ul>
-<p>
-  <img src="https://media.giphy.com/media/QBd2kLB5qDmysEXre9/giphy.gif" width="220" align="right" style="margin-left: 20px; margin-bottom: 10px; border-radius: 10px;" />
-</p>
 <p><strong>Tuning:</strong> Manual <code>GridSearchCV</code> via custom parameter dictionary per model</p>
 <p><strong>Evaluation Metrics:</strong> R² Score, MAE, RMSE</p>
 
