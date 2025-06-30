@@ -1,3 +1,12 @@
+# Setup default logging to ensure all messages appear in terminal 
+# as the cusotm logger was sending the logs(such as url) to logs file instead of the terminal
+import logging
+import sys
+
+werkzeug_logger = logging.getLogger('werkzeug')
+werkzeug_logger.setLevel(logging.INFO)
+werkzeug_logger.addHandler(logging.StreamHandler(sys.stdout))
+
 from flask import Flask, request, render_template
 import numpy as np
 import pandas as pd
