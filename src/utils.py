@@ -24,10 +24,10 @@ def evaluate_models(X_train, y_train, X_test, y_test, models, params):
     try:
         report = {}
         best_trained_models = {}
-        model_list = []
-        r2_list = []
-        mae_list = []
-        rmse_list = []
+        # model_list = []
+        # r2_list = []
+        # mae_list = []
+        # rmse_list = []
 
 
         for model_name, model in models.items():
@@ -48,26 +48,20 @@ def evaluate_models(X_train, y_train, X_test, y_test, models, params):
             test_model_score = r2_score(y_test, y_test_pred)
             report[model_name] = test_model_score
             best_trained_models[model_name] = model
-            model_list.append(model_name)
-            r2_list.append(test_model_score)
-            mae_list.append(mean_absolute_error(y_test, y_test_pred))
-            rmse_list.append(np.sqrt(mean_squared_error(y_test, y_test_pred)))
-            # print(model_name)
-            # print('---------------------------------------------------')
-            # print("R2_score for trainig data:", train_model_score)
-            # print("R2_score for testing data:", test_model_score)
-            # print('===================================================')
-            # print('\n')
+            # model_list.append(model_name)
+            # r2_list.append(test_model_score)
+            # mae_list.append(mean_absolute_error(y_test, y_test_pred))
+            # rmse_list.append(np.sqrt(mean_squared_error(y_test, y_test_pred)))
 
-        results_df = pd.DataFrame({
-            'Model': model_list,
-            'R2_Score': r2_list,
-            'MAE': mae_list,
-            'RMSE': rmse_list
-        })
+        # results_df = pd.DataFrame({
+        #     'Model': model_list,
+        #     'R2_Score': r2_list,
+        #     'MAE': mae_list,
+        #     'RMSE': rmse_list
+        # })
 
-        print("Model Performance After Hyperparameter Tuning:")
-        print(results_df.sort_values(by='R2_Score', ascending=False))
+        # print("Model Performance After Hyperparameter Tuning:")
+        # print(results_df.sort_values(by='R2_Score', ascending=False))
 
         return report, best_trained_models
 

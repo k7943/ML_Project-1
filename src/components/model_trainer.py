@@ -119,7 +119,7 @@ class ModelTrainer:
             )
 
             y_test_predicted = best_model.predict(X_test)
-            print(best_model_name)
+            # print(best_model_name)
 
             return r2_score(y_test,y_test_predicted)
         
