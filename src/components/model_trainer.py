@@ -95,7 +95,7 @@ class ModelTrainer:
                 }
             }
 
-            model_report = evaluate_models(X_train, y_train, X_test, y_test,models, params)
+            model_report, best_trained_models = evaluate_models(X_train, y_train, X_test, y_test,models, params)
 
             best_model_score = 0
             best_model_name = ""
@@ -105,7 +105,7 @@ class ModelTrainer:
                     best_model_name = model_name
                     best_model_score = model_score
 
-            best_model = models[best_model_name]
+            best_model = best_trained_models[best_model_name]
             
             if best_model_score < 0.6:
                 raise CustomException("No best model found")

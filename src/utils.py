@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import dill
 from src.exception import CustomException
-from sklearn.metrics import r2_score
+from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 from sklearn.model_selection import GridSearchCV
 import warnings
 from sklearn.exceptions import ConvergenceWarning
@@ -23,6 +23,12 @@ def save_object(file_path, obj):
 def evaluate_models(X_train, y_train, X_test, y_test, models, params):
     try:
         report = {}
+        best_trained_models = {}
+        model_list = []
+        r2_list = []
+        mae_list = []
+        rmse_list = []
+
 
         for model_name, model in models.items():
             para = params[model_name]
@@ -41,6 +47,11 @@ def evaluate_models(X_train, y_train, X_test, y_test, models, params):
             train_model_score = r2_score(y_train, y_train_pred)
             test_model_score = r2_score(y_test, y_test_pred)
             report[model_name] = test_model_score
+            best_trained_models[model_name] = model
+            model_list.append(model_name)
+            r2_list.append(test_model_score)
+            mae_list.append(mean_absolute_error(y_test, y_test_pred))
+            rmse_list.append(np.sqrt(mean_squared_error(y_test, y_test_pred)))
             # print(model_name)
             # print('---------------------------------------------------')
             # print("R2_score for trainig data:", train_model_score)
@@ -48,9 +59,25 @@ def evaluate_models(X_train, y_train, X_test, y_test, models, params):
             # print('===================================================')
             # print('\n')
 
+        results_df = pd.DataFrame({
+            'Model': model_list,
+            'R2_Score': r2_list,
+            'MAE': mae_list,
+            'RMSE': rmse_list
+        })
 
-        return report
+        print("Model Performance After Hyperparameter Tuning:")
+        print(results_df.sort_values(by='R2_Score', ascending=False))
+
+        return report, best_trained_models
 
 
     except Exception as e:
         raise CustomException(e,sys)
+    
+def load_object(file_path):
+    try:
+        with open(file_path, "rb") as file_obj:
+            return dill.load(file_obj)
+    except Exception as e:
+        raise CustomException(e, sys)
