@@ -19,6 +19,40 @@
 
   <style>
 
+:root[data-theme='dark'] .form-control,
+:root[data-theme='dark'] .form-select {
+  background-color: #2c2c2c;
+  color: #f1f1f1;
+  border: 1px solid #444;
+}
+
+:root[data-theme='dark'] .form-control::placeholder {
+  color: #bbbbbb;
+}
+
+:root[data-theme='dark'] .form-control:focus,
+:root[data-theme='dark'] .form-select:focus {
+  background-color: #2c2c2c;
+  color: #f1f1f1;
+  border-color: #5c9ded;
+  box-shadow: 0 0 0 0.2rem rgba(92, 157, 237, 0.25);
+}
+
+:root[data-theme='dark'] .form-label {
+  color: #e0e0e0;
+}
+
+:root[data-theme='dark'] .btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  color: #ffffff;
+}
+
+:root[data-theme='dark'] .btn-primary:hover {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+}
+
     html {
         scroll-behavior: smooth;
     }
@@ -44,7 +78,7 @@
 :root[data-theme='dark'] {
   /* existing vars... */
   --navbar-bg: #1e1e1e;
-  --navbar-text: #f8f9fa;
+  --navbar-text: #f1f1f1;
   --btn-bg: #2c2c2c;
   --btn-text: #f8f9fa;
 }
@@ -89,8 +123,8 @@
         }
 
         :root[data-theme='dark'] {
-        --bg-color: #121212;
-        --text-color: #f8f9fa;
+        --bg-color: #181818;
+        --text-color: #f1f1f1;
         --card-bg: #1e1e1e;
         --pre-bg: #2c2c2c;
         --pre-text: #e9ecef;
@@ -192,10 +226,12 @@
       <ul class="navbar-nav flex-row gap-3 mb-0">
         <li class="nav-item"><a class="nav-link" href="#form">Form</a></li>
         <li class="nav-item"><a class="nav-link" href="#overview">Overview</a></li>
-        <li class="nav-item"><a class="nav-link" href="#models">Models</a></li>
         <li class="nav-item"><a class="nav-link" href="#dataset">Dataset</a></li>
-        <li class="nav-item"><a class="nav-link" href="#project-structure">Structure</a></li>
+        <li class="nav-item"><a class="nav-link" href="#dataset">Dataset</a></li>
+        <li class="nav-item"><a class="nav-link" href="#pipeline">Pipeline</a></li>
+        <li class="nav-item"><a class="nav-link" href="#models">Models</a></li>
         <li class="nav-item"><a class="nav-link" href="#how-it-works">Steps</a></li>
+        <li class="nav-item"><a class="nav-link" href="#project-structure">Structure</a></li>
       </ul>
   
       <!-- Theme Toggle Button inside navbar -->

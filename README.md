@@ -30,6 +30,7 @@ from data ingestion and preprocessing to training, evaluation, and deployment us
   <li>scikit-learn – ML algorithms, preprocessing, metrics</li>
   <li>XGBoost, CatBoost – boosting regressors</li>
   <li>joblib, dill – model serialization</li>
+  <li>HTML, CSS, JavaScript – frontend styling and interactivity </li>
 </ul>
 
 <h2>Problem Statement</h2>
@@ -72,11 +73,12 @@ who may need academic support.
 
 <h2>Model Training & Selection</h2>
 
+<h3>Models Evaluated</h3>
+
 <p>
   <img src="https://media.giphy.com/media/QBd2kLB5qDmysEXre9/giphy.gif" width="220" align="right" style="margin-left: 20px; margin-bottom: 10px; border-radius: 10px;" />
 </p>
 
-<h3>Models Evaluated</h3>
 
 <ul>
   <li>Linear Regression, Lasso, Ridge</li>
