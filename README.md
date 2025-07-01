@@ -132,6 +132,14 @@ who may need academic support.
 │   └── exception.py         # Custom exception handler
 </pre>
 
+<h2>Preview</h2>
+<p>Here’s a glimpse of the locally running application:</p>
+
+<div style="display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap;">
+  <img src="images/image1.png" alt="Form Page" style="width: 48%; border-radius: 8px;" />
+  <img src="images/image2.png" alt="Dashboard Page" style="width: 48%; border-radius: 8px;" />
+</div>
+
 <h2>Author</h2>
 <p><strong>Kunal Sharma</strong></p>
 <p>Email: <a href="mailto:kunals7943@gmail.com">kunals7943@gmail.com</a></p>
