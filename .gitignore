@@ -196,4 +196,3 @@ cython_debug/
 src/.DS_Store
 notebook/.DS_Store
 artifacts
-images
